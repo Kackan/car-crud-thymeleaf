@@ -94,11 +94,6 @@ public class CarController {
     @GetMapping("/cars/update-one-field/{id}/{type}/{value}")
     public String updateOneFieldOfCar(@PathVariable("id") Long id, @PathVariable("type")String type, @PathVariable("value") String value)
     {
-        System.out.println("Id: "+id);
-        System.out.println("Type: "+type);
-        System.out.println("Value: "+value);
-
-
         Optional<Car> car=service.getCarById(id);
         car.ifPresent(car1 -> service.updateOneFieldOfCar(car1, type, value));
         return "redirect:/cars";
