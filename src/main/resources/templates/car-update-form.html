@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CarUpdateForm</title>
+
+
+    <style>
+        .errors
+        {
+            color:red;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+<h1>Change your car!</h1>
+
+
+<main>
+
+    <div>
+        <form th:action="@{/cars/save/{id}(id = ${car.id})}" th:method="post" th:object="${car}">
+            <p>ID <td th:text="*{id}"/></p>
+            <input type="hidden" th:value="${id}" th:attr="name='id'" />
+
+            <p>NAME <input id="inputName" type="text" th:field="*{name}"/>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorClass="errors"/></p>
+
+            <p>COLOR <input id="inputColor" type="text" th:field="*{color}" />
+                <span th:if="${#fields.hasErrors()}" th:errors="*{color}" th:errorClass="errors"/></p>
+
+            <input th:type="submit" value="Update!">
+        </form>
+    </div>
+</main>
+
+
+
+</body>
+</html>

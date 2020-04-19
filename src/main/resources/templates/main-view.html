@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car list</title>
+
+</head>
+<body>
+
+
+<main>
+    <h1>Car list</h1>
+    <br />
+
+    <table>
+        <tr>
+        <th>ID</th><th>NAME</th><th>COLOR</th><th>ACTION</th>
+
+        </tr>
+            <tr>
+            <tr th:each="car: ${cars}">
+            <td th:text="${car.getId()}"></td>
+            <td th:text="${car.getName()}"></td>
+            <td th:text="${car.getColor()}"></td>
+            <td><a th:href="@{/cars/delete/{id}(id=${car.getId()})}" >Delete</a></td>
+            <td><a th:href="@{/cars/edit/{id}(id=${car.getId()})}" >Edit</a></td>
+        </tr>
+    </table>
+
+<br />
+
+    <button onclick="displayHideFunction('carAdding')">Add new car</button>
+
+    <div style="display:none;" id="carAdding" >
+    <form th:method="post" th:action="@{/cars/add-car}" th:object="${newCar}">
+      <p>ID <input type="text" th:field="*{id}">* (must be unique)</p>
+
+        <p>NAME <input type="text" th:field="*{name}">*
+
+        <p>COLOR <input type="text" th:field="*{color}">*
+
+
+        <input type="submit" value="Add car!">
+    </form>
+        <h6>* required</h6>
+    </div>
+</main>
+
+<script>
+    function  displayHideFunction(str) {
+        let elem = document.getElementById(str);
+        if(elem.style.display==='none')
+        {
+            elem.style.display='block';
+        }else
+        {
+            elem.style.display='none';
+        }
+    }
+</script>
+</body>
+</html>
