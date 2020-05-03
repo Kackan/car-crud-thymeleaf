@@ -1,6 +1,6 @@
 package com.kackan.carcrudthymeleaf.controller;
 import com.kackan.carcrudthymeleaf.service.CarService;
-import model.Car;
+import com.kackan.carcrudthymeleaf.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,18 +47,6 @@ public class CarController {
             }
     }
 
-    @PostMapping("/cars/save/{id}")
-    public String saveUpdatedCar(@PathVariable("id") Long id, @Valid Car car, BindingResult result)
-    {
-        if(result.hasErrors())
-        {
-            return "car-update-form";
-        }
-
-        service.updateCar(car);
-        return "redirect:/cars";
-    }
-
     @GetMapping("/cars/delete/{id}")
     public String deleteCar(@PathVariable Long id)
     {
@@ -74,18 +62,15 @@ public class CarController {
     @PostMapping("/cars/add-car")
     public String addCar(@Valid @ModelAttribute Car car, BindingResult result)
     {
-
         if(result.hasErrors())
         {
             return "redirect:/cars";
         }
 
-        Car car1 = service.addCar(car);
-        if(car1!=null)
+        if(service.addCar(car))
         {
             return "redirect:/cars";
-        }else
-        {
+        }else {
             return "errorId";
         }
     }
@@ -96,6 +81,18 @@ public class CarController {
     {
         Optional<Car> car=service.getCarById(id);
         car.ifPresent(car1 -> service.updateOneFieldOfCar(car1, type, value));
+        return "redirect:/cars";
+    }
+
+    @PostMapping("/cars/save/{id}")
+    public String saveUpdatedCar(@PathVariable("id") Long id, @Valid Car car, BindingResult result)
+    {
+        if(result.hasErrors())
+        {
+            return "car-update-form";
+        }
+
+        service.updateCar(car);
         return "redirect:/cars";
     }
 

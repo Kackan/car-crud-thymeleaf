@@ -1,12 +1,11 @@
 package com.kackan.carcrudthymeleaf.service;
 
-import model.Car;
-import model.TypeOfField;
+import com.kackan.carcrudthymeleaf.model.Car;
+import com.kackan.carcrudthymeleaf.model.TypeOfField;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,20 +22,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car addCar(Car car) {
+    public boolean addCar(Car car) {
 
         List<Long>ids=new ArrayList<>();
         cars.forEach(c-> ids.add(c.getId()));
 
-
         if(ids.contains(car.getId()))
         {
-            return null;
+            return false;
         }
         else
         {
             cars.add(car);
-            return car;
+            return true;
         }
     }
 
@@ -54,21 +52,19 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(Long id) {
-        Car car=cars.stream().filter(c->c.getId().equals(id)).findFirst().get();
-        cars.remove(car);
+        cars.stream().filter(c->c.getId().equals(id)).findFirst().ifPresent(c->cars.remove(c));
     }
 
     @Override
-    public Car updateCar(Car car) {
+    public void updateCar(Car car) {
         Car carToUpdate = cars.stream().filter(c -> c.getId().equals(car.getId())).findFirst().get();
         carToUpdate.setColor(car.getColor());
         carToUpdate.setName(car.getName());
-        return carToUpdate;
         }
 
 
     @Override
-    public Car updateOneFieldOfCar(Car car, String type, String value) {
+    public void updateOneFieldOfCar(Car car, String type, String value) {
 
             if(type.equalsIgnoreCase(TypeOfField.NAME.name()))
             {
@@ -80,6 +76,5 @@ public class CarServiceImpl implements CarService {
             }else {
                 System.out.println("Field doesn't exist");
             }
-            return car;
     }
 }

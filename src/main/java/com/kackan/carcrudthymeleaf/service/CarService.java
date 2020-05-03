@@ -1,17 +1,16 @@
 package com.kackan.carcrudthymeleaf.service;
 
-import model.Car;
+import com.kackan.carcrudthymeleaf.model.Car;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface CarService {
 
-        Car addCar(Car car);
+        boolean addCar(Car car);
         List<Car> getCars();
         Optional<Car> getCarById(Long id);
         void deleteCar(Long id);
-        Car updateCar(Car car);
-        Car updateOneFieldOfCar(Car car, String type, String value);
+        void updateCar(Car car);
+        void updateOneFieldOfCar(Car car, String type, String value);
 }

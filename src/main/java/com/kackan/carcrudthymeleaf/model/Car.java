@@ -1,4 +1,4 @@
-package model;
+package com.kackan.carcrudthymeleaf.model;
 
 
 import javax.validation.constraints.NotBlank;
